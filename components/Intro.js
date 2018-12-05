@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 export default class Intro extends React.Component {
     constructor() {
@@ -9,10 +10,10 @@ export default class Intro extends React.Component {
             text: "Welcome to Colibri. Click the arrow for a quick intro."
         };
 
-        this._onPressButton = this._onPressButton.bind(this);
+        this.onPressButton = this.onPressButton.bind(this);
     }
 
-    _onPressButton() {
+    onPressButton() {
         if(this.state.place === 'a') {
             this.setState({
                 place: 'b',
@@ -31,7 +32,7 @@ export default class Intro extends React.Component {
         }
     }
 
-    _login() {
+    login() {
 
     }
 
@@ -42,19 +43,24 @@ export default class Intro extends React.Component {
                 <View style={styles.textarea}>
                     <Text style={{fontSize: 18}}>{this.state.text}</Text>
                 </View>
-                <TouchableOpacity style={this.arrow} onPress={this._onPressButton}>
+                <TouchableOpacity style={this.arrow} onPress={this.onPressButton}>
                     <Image style={{alignSelf: 'stretch'}} source={require('../assets/right-arrow.png')} />
                 </TouchableOpacity>
                 <View style={styles.button}>
-                    <Button
-                        onPress={this._login}
-                        title="Register"
-                        color='purple'
-                    />
-                    <Button
-                        onPress={this._login}
-                        title="Log In"
-                    />
+                    <View>
+                        <Button
+                            onPress={() => this.props.navigation.navigate('RegFormScreen')}
+                            title="Register"
+                            color='purple'
+                        />
+                    </View>
+                    <View style={{flex:0.4}}/>
+                    <View>
+                        <Button
+                            onPress={this.login}
+                            title="Log In"
+                        />
+                    </View>
                 </View>
             </View>
         );
@@ -79,8 +85,8 @@ const styles = StyleSheet.create({
     button: {
         width: deviceWidth - 40,
         marginBottom: 10,
+        paddingTop: 10,
         flex: 1,
-        justifyContent: 'space-evenly',
     },
     arrow: {
         marginTop: 10,
