@@ -42,7 +42,7 @@ export default class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>
-                colibri is a nice bird
+                colibri is humming bird in spanish
             </Text>
           </View>
 
