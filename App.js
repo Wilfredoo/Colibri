@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Intro from './components/Intro.js';
-import RegForm from './components/RegForm.js'
+import RegForm from './components/RegForm.js';
 
 const AppNavigator = createStackNavigator(
     {
