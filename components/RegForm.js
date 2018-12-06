@@ -3,6 +3,10 @@ import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-
 import axios from 'axios'
 
 export default class RegForm extends React.Component {
+    static navigationOptions = {
+        header: null,
+    }
+
     constructor(props) {
         super(props);
         this.state = {

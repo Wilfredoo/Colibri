@@ -1,8 +1,11 @@
   import React from 'react';
 import { Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 export default class Intro extends React.Component {
+    static navigationOptions = {
+        header: null,
+    }
+
     constructor() {
         super();
         this.state = {
