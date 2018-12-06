@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import axios from 'axios'
 
 export default class RegForm extends React.Component {
     constructor(props) {
@@ -10,8 +11,19 @@ export default class RegForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        axios.get('http://localhost:8080/test').then(() => { console.log("axios worked")})
+    }
+
     onSubmit() {
         console.log(this.state);
+        axios.post('/register').then(() => {
+                  // if (resp.data.success) {}
+                  console.log("axios response");
+              })
+              .catch(err => {
+                console.log(err);
+              })
     }
 
     render() {
