@@ -1,5 +1,9 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Platform, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+=======
+import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+>>>>>>> 15f781593e6ff87f428134fe4006d9528c1106d2
 import axios from 'axios';
 
 export default class RegForm extends React.Component {
@@ -15,8 +19,11 @@ export default class RegForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:8080/test').then(() => { console.log("axios worked")})
+    componentWillMount() {
+        axios.get('https://facebook.github.io/react-native/movies.json').then((res) => { console.warn(res.data.movies)})
+
+
+        axios.get('/test').then((res) => { console.warn("axios worked")})
     }
 
     onSubmit() {
@@ -32,7 +39,7 @@ export default class RegForm extends React.Component {
 
     render() {
         return (
-            <View style={styles.regform}>
+            <ScrollView style={styles.regform}>
                 <Text style={styles.header}>Register</Text>
                 <TextInput
                     style={styles.textinput}
@@ -75,7 +82,7 @@ export default class RegForm extends React.Component {
                 <TouchableOpacity onPress={this.onSubmit} style={styles.button}>
                     <Text style={styles.btntext}>Sign Up</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         );
     }
 }
