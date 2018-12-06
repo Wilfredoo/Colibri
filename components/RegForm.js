@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import axios from 'axios'
 
 export default class RegForm extends React.Component {
@@ -28,7 +28,7 @@ export default class RegForm extends React.Component {
 
     render() {
         return (
-            <View style={styles.regform}>
+            <ScrollView style={styles.regform}>
                 <Text style={styles.header}>Register</Text>
                 <TextInput
                     style={styles.textinput}
@@ -71,7 +71,7 @@ export default class RegForm extends React.Component {
                 <TouchableOpacity onPress={this.onSubmit} style={styles.button}>
                     <Text style={styles.btntext}>Sign Up</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         );
     }
 }
