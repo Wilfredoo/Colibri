@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native
 import axios from 'axios'
 
 export default class RegForm extends React.Component {
-    static navigationOptions = {
-        header: null,
+    if (Platform.OS === 'android') {
+        static navigationOptions = {
+            header: null
+        }
     }
 
     constructor(props) {
@@ -16,18 +18,18 @@ export default class RegForm extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/test').then(() => { console.log("axios worked")})
+        // axios.get('http://localhost:8080/test').then(() => { console.log("axios worked")})
     }
 
     onSubmit() {
         console.log(this.state);
-        axios.post('/register').then(() => {
-                  // if (resp.data.success) {}
-                  console.log("axios response");
-              })
-              .catch(err => {
-                console.log(err);
-              })
+        // axios.post('/register').then(() => {
+        //           // if (resp.data.success) {}
+        //           console.log("axios response");
+        //       })
+        //       .catch(err => {
+        //         console.log(err);
+        //       })
     }
 
     render() {
