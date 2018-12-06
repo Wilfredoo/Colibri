@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const db = require('./database.js');
 
 console.log("hi im in index");
 app.post('/register', (req, res) => {
@@ -14,8 +15,10 @@ app.post('/register', (req, res) => {
 
 app.get('/test', (req, res) => {
   console.log("got to index");
+  return db .test().then(() => {
+    console.log("got back from database");
+  })
   res.json({success:true})
 })
-
 
 app.listen(process.env.PORT || 8080);

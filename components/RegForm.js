@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
-import axios from 'axios'
+import axios from 'axios';
 
 export default class RegForm extends React.Component {
     static navigationOptions = {
@@ -15,8 +15,11 @@ export default class RegForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:8080/test').then(() => { console.log("axios worked")})
+    componentWillMount() {
+        axios.get('https://facebook.github.io/react-native/movies.json').then((res) => { console.warn(res.data.movies)})
+
+
+        axios.get('/test').then((res) => { console.warn("axios worked")})
     }
 
     onSubmit() {
