@@ -1,14 +1,10 @@
 import React from 'react';
-<<<<<<< HEAD
-import { Platform, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
-=======
 import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
->>>>>>> 15f781593e6ff87f428134fe4006d9528c1106d2
 import axios from 'axios';
 
 export default class RegForm extends React.Component {
     static navigationOptions = {
-        header: null
+        header: null,
     }
 
     constructor(props) {
@@ -19,22 +15,8 @@ export default class RegForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentWillMount() {
-        axios.get('https://facebook.github.io/react-native/movies.json').then((res) => { console.warn(res.data.movies)})
-
-
-        axios.get('/test').then((res) => { console.warn("axios worked")})
-    }
-
     onSubmit() {
-        console.log(this.state);
-        axios.post('/register').then(() => {
-                  if (resp.data.success) {}
-                  console.log("axios response");
-              })
-              .catch(err => {
-                console.log(err);
-              })
+        console.log("trying to submit");
     }
 
     render() {
