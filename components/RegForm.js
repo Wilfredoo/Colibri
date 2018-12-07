@@ -1,9 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+<<<<<<< HEAD
+=======
+import axios from 'axios';
+>>>>>>> c3cc0fe782452c34f1fe219d37da3cbe9d5838d7
 
 export default class RegForm extends React.Component {
     static navigationOptions = {
-        header: null
+        header: null,
     }
 
     constructor(props) {
@@ -15,7 +19,7 @@ export default class RegForm extends React.Component {
     }
 
     onSubmit() {
-        console.log(this.state);
+        console.log("trying to submit");
     }
 
     render() {
