@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import firebase from 'firebase';
 
 export default class RegForm extends React.Component {
     static navigationOptions = {
@@ -35,7 +36,7 @@ export default class RegForm extends React.Component {
 
     onSubmit() {
         console.log("trying to submit");
-        firebase.database().ref('/users/').set(
+        firebase.database().ref(`/users/${this.state.uid}`).set(
             {
             name: this.state.firstName
             }
