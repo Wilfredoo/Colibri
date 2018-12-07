@@ -1,9 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
-<<<<<<< HEAD
-=======
-import axios from 'axios';
->>>>>>> c3cc0fe782452c34f1fe219d37da3cbe9d5838d7
 
 export default class RegForm extends React.Component {
     static navigationOptions = {
@@ -13,13 +9,39 @@ export default class RegForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            uid: '',
         };
         this.onSubmit = this.onSubmit.bind(this);
+        this.makeUID = this.makeUID.bind(this);
+    }
+
+    makeUID() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 64; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        console.log("makeUID result: ", text);
+        this.setState({
+            uid: text
+        })
+    }
+
+    componentWillMount() {
+        this.makeUID();
     }
 
     onSubmit() {
         console.log("trying to submit");
+        firebase.database().ref('/users/').set(
+            {
+            name: this.state.firstName
+            }
+        ).then(() => {
+            console.log("inserted this: ", this.state.firstName);
+        })
     }
 
     render() {
@@ -28,7 +50,9 @@ export default class RegForm extends React.Component {
                 <Text style={styles.header}>Register</Text>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="First Name"
+                    // I put this.state.uid for testing, works!
+                    // placeholder="First Name"
+                    placeholder={this.state.uid}
                     underlineColorAndroid={'transparent'}
                     onChangeText={(firstName) => this.setState({firstName})}
                 />

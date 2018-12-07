@@ -1,5 +1,6 @@
-  import React from 'react';
+import React from 'react';
 import { Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import firebase from 'firebase';
 
 export default class Intro extends React.Component {
     static navigationOptions = {
