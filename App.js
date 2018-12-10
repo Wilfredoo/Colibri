@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Intro from './components/Intro.js';
 import RegForm from './components/RegForm.js';
+
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
@@ -33,8 +34,8 @@ firebase.initializeApp(config);
 
 const AppNavigator = createStackNavigator(
     {
-        IntroScreen: Intro,
-        RegFormScreen: RegForm,
+      IntroScreen: Intro,
+      RegFormScreen: RegForm,
     },
     {
         initialRouteName: 'IntroScreen'
