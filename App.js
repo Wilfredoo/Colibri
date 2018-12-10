@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Intro from './components/Intro.js';
+import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
-
+import Entrance from './components/Entrance.js';
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
@@ -23,7 +24,7 @@ let secrets = './secrets.json';
 // })
 
 var config = {
-    apiKey: secrets.API_KEY,
+    apiKey: "AIzaSyDHxYvWmfVhIlXXBi6WaESi3qeynhsL834",
     authDomain: secrets.AUTH_DOMAIN,
     databaseURL: "https://colibri-97b46.firebaseio.com",
     projectId: secrets.PROJECT_ID,
@@ -34,8 +35,15 @@ firebase.initializeApp(config);
 
 const AppNavigator = createStackNavigator(
     {
+<<<<<<< HEAD
       IntroScreen: Intro,
       RegFormScreen: RegForm,
+=======
+        IntroScreen: Intro,
+        RegFormScreen: RegForm,
+        LoginScreen: Login,
+        EntranceScreen: Entrance,
+>>>>>>> e606c61d69b75cfcd9d682842a0aaec6c004f0a8
     },
     {
         initialRouteName: 'IntroScreen'
