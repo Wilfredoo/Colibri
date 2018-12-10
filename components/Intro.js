@@ -36,10 +36,6 @@ export default class Intro extends React.Component {
         }
     }
 
-    login() {
-
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -61,7 +57,7 @@ export default class Intro extends React.Component {
                     <View style={{flex:0.4}}/>
                     <View>
                         <Button
-                            onPress={this.login}
+                            onPress={() => this.props.navigation.navigate('LoginScreen')}
                             title="Log In"
                         />
                     </View>
