@@ -26,11 +26,18 @@ export default class Login extends React.Component {
         );
     }
 
+    componentWillUnmount() {
+        clearInterval(this.checker);
+    }
+
     onSubmit(evt) {
         evt.preventDefault();
         firebase
             .auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() => {this.props.navigation.navigate('EntranceScreen')})
+            .then(() => {
+                clearInterval(this.checker);
+                this.props.navigation.navigate('EntranceScreen');
+            })
             .catch(error => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -69,7 +76,6 @@ export default class Login extends React.Component {
                         returnKeyType = {"next"}
                         onSubmitEditing={() => {this.secondTextInput.focus();}}
                         onChangeText={email => this.setState({email})}
-                        // onChange={this.checkLength}
                     />
                     <TextInput
                         ref={(input) => {this.secondTextInput = input;}}
@@ -78,7 +84,6 @@ export default class Login extends React.Component {
                         autoCapitalize="none"
                         underlineColorAndroid={'transparent'}
                         onChangeText={password => this.setState({password})}
-                        // onChange={this.checkLength}
                     />
                     <View style={styles.button}>
                         <Button
