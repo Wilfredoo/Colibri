@@ -24,8 +24,4 @@ firebase.database().ref('/users').push(
       email: this.state.email,
       password: this.state.password
     }
-
-
-
-
-        )
+)

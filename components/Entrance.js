@@ -13,7 +13,21 @@ export default class Entrance extends React.Component {
     }
 
     componentDidMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            if(user) {
+                console.log("User's email: ", user.email);
+                console.log("UID: ", user.uid);
+            }
+        })
 
+        // firebase.database().ref('/users/' + this.state.uid).push(
+        //     {
+        //       firstName: this.state.firstName,
+        //       lastName: this.state.lastName,
+        //       age: this.state.age,
+        //       bio: this.state.bio
+        //     }
+        // )
     }
 
     render() {

@@ -52,8 +52,6 @@ export default class Login extends React.Component {
     }
 
     checkLength() {
-        console.log("email: ",this.state.email.length);
-        console.log("pw:", this.state.password.length);
         if(this.state.email.length > 6 && this.state.password.length > 5) {
             this.setState({disabled:false});
         } else {
