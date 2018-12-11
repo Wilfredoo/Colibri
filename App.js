@@ -35,15 +35,13 @@ firebase.initializeApp(config);
 
 const AppNavigator = createStackNavigator(
     {
-<<<<<<< HEAD
+
       IntroScreen: Intro,
       RegFormScreen: RegForm,
-=======
         IntroScreen: Intro,
         RegFormScreen: RegForm,
         LoginScreen: Login,
         EntranceScreen: Entrance,
->>>>>>> e606c61d69b75cfcd9d682842a0aaec6c004f0a8
     },
     {
         initialRouteName: 'IntroScreen'

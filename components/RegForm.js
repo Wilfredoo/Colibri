@@ -25,12 +25,6 @@ export default class RegForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-
-handleSignUp() {
-  //firebase stuff
-  console.log("handling sign up!");
-}
-
     componentWillMount() {
         console.log("here is the state: ", this.state);
         firebase.database().ref('/users')
@@ -42,28 +36,22 @@ handleSignUp() {
 
 
     onSubmit() {
-      console.log(this.state.firstName);
+      console.log(this.state.password.length);
       if (!this.state.firstName || !this.state.lastName || !this.state.age || !this.state.email || !this.state.password || !this.state.bio) {
         alert("Please fill out all fields")
       } else {
-        firebase.database().ref('/users').push(
-            {
-              id: this.state.uid,
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              age: this.state.age,
-              bio: this.state.bio
-            }
-        )
-        }
+      firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => this.props.navigation.navigate('LoginScreen'))
+      .catch(error => this.setState({ errorMessage: error.message }))
+      }
     }
 
+
     askPermissionsAsync = async () => {
-    await Permissions.askAsync(Permissions.CAMERA);
-    await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    // you would probably do something to verify that permissions
-    // are actually granted, but I'm skipping that for brevity
-  };
+      await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    };
 
   useLibraryHandler = async () => {
     await this.askPermissionsAsync();
@@ -87,25 +75,29 @@ handleSignUp() {
 
                 <Text style={styles.header}>Register</Text>
 
-                <TextInput
-                    style={styles.textinput}
-                    // I put this.state.uid for testing, works!
-                    // placeholder="First Name"
-                    placeholder="Email"
-                    underlineColorAndroid={'transparent'}
-                    onChangeText={(email) => this.setState({email})}
-                    value={this.state.email}
-                 />
+                <Text style={{ color: 'red' }}>
+                           {this.state.errorMessage}
+                         </Text>
 
-                 <TextInput
-                     style={styles.textinput}
-                     // I put this.state.uid for testing, works!
-                     // placeholder="First Name"
-                     placeholder="Password"
-                     underlineColorAndroid={'transparent'}
-                     onChangeText={(password) => this.setState({password})}
-                     value={this.state.password}
-                  />
+                         <TextInput
+                             style={styles.textinput}
+                             placeholder="Email"
+                             autoCapitalize="none"
+                             keyboardType="email-address"
+                             underlineColorAndroid={'transparent'}
+                             autoFocus
+                             onChangeText={email => this.setState({email})}
+
+                         />
+                         <TextInput
+                             ref={(input) => {this.secondTextInput = input;}}
+                             style={styles.textinput}
+                             placeholder="Password"
+                             autoCapitalize="none"
+                             underlineColorAndroid={'transparent'}
+                             onChangeText={password => this.setState({password})}
+                         />
+
 
                 <TextInput
                     style={styles.textinput}
