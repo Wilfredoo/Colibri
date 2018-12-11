@@ -19,6 +19,13 @@ export default class Login extends React.Component {
         this.error;
     }
 
+    componentDidMount() {
+        this.checker = setInterval(
+            () => this.checkLength(),
+            250
+        );
+    }
+
     onSubmit(evt) {
         evt.preventDefault();
         firebase
@@ -38,6 +45,8 @@ export default class Login extends React.Component {
     }
 
     checkLength() {
+        console.log("email: ",this.state.email.length);
+        console.log("pw:", this.state.password.length);
         if(this.state.email.length > 6 && this.state.password.length > 5) {
             this.setState({disabled:false});
         } else {
@@ -60,7 +69,7 @@ export default class Login extends React.Component {
                         returnKeyType = {"next"}
                         onSubmitEditing={() => {this.secondTextInput.focus();}}
                         onChangeText={email => this.setState({email})}
-                        onChange={this.checkLength}
+                        // onChange={this.checkLength}
                     />
                     <TextInput
                         ref={(input) => {this.secondTextInput = input;}}
@@ -69,7 +78,7 @@ export default class Login extends React.Component {
                         autoCapitalize="none"
                         underlineColorAndroid={'transparent'}
                         onChangeText={password => this.setState({password})}
-                        onChange={this.checkLength}
+                        // onChange={this.checkLength}
                     />
                     <View style={styles.button}>
                         <Button

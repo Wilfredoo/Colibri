@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import firebase from 'firebase';
 
 export default class Entrance extends React.Component {
     static navigationOptions = {
@@ -9,6 +10,10 @@ export default class Entrance extends React.Component {
     constructor() {
         super();
         this.state = {}
+    }
+
+    componentDidMount() {
+
     }
 
     render() {
