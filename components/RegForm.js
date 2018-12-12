@@ -60,7 +60,6 @@ export default class RegForm extends React.Component {
             base64: true,
         });
         this.setState({ result });
-        // console.log("base64 data:", this.state.result.base64);
     };
 
     render() {

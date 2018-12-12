@@ -17,17 +17,6 @@ export default class Intro extends React.Component {
         this.onPressButton = this.onPressButton.bind(this);
     }
 
-    // THIS IS JUST FOR TESTING!! Remove when live
-    componentDidMount() {
-        firebase.auth().signOut().then(function() {
-            console.log(" ");
-            console.log('Signed Out, remove this from Intro.js when going live.');
-            console.log(" ");
-        }, function(error) {
-            console.error('Sign Out Error', error);
-        })
-    }
-
     onPressButton() {
         if(this.state.place === 'a') {
             this.setState({

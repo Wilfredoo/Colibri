@@ -16,7 +16,6 @@ export default class Login extends React.Component {
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.checkLength = this.checkLength.bind(this);
-        this.error;
     }
 
     componentDidMount() {

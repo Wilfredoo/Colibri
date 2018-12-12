@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import Loading from './components/Loading.js';
 import Intro from './components/Intro.js';
 import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
@@ -35,16 +36,16 @@ firebase.initializeApp(config);
 
 const AppNavigator = createStackNavigator(
     {
-
-      IntroScreen: Intro,
-      RegFormScreen: RegForm,
+        IntroScreen: Intro,
+        RegFormScreen: RegForm,
         IntroScreen: Intro,
         RegFormScreen: RegForm,
         LoginScreen: Login,
         EntranceScreen: Entrance,
+        LoadingScreen: Loading,
     },
     {
-        initialRouteName: 'IntroScreen'
+        initialRouteName: 'LoadingScreen'
     }
 );
 const AppContainer = createAppContainer(AppNavigator);
