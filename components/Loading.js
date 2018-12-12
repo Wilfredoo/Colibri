@@ -3,7 +3,12 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import firebase from 'firebase';
 
 export default class Loading extends React.Component {
+    static navigationOptions = {
+        header: null,
+    }
+
     componentDidMount() {
+        console.log("checking if signed in");
         firebase.auth().onAuthStateChanged(user => {
             this.props.navigation.navigate(user ? 'EntranceScreen' : 'IntroScreen')
         })
