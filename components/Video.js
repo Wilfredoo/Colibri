@@ -3,6 +3,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import { Camera,  Permissions, Video } from 'expo';
+import firebase from 'firebase';
 
 export default class VideoPage extends React.Component {
 
@@ -38,17 +39,19 @@ export default class VideoPage extends React.Component {
   startRecording = () => {
     this.setState({recording: true});
 
-    this.cameraRef.recordAsync({maxDuration : 2, mute : true})
+    this.cameraRef.recordAsync({maxDuration : 2})
       .then((video) => this.setState({video: video, recording: false}));
   }
 
   stopRecording = () => {
-    console.log(this.state);
+    console.log("state", this.state.video);
     this.setState({ stopping: true });
     this.cameraRef.stopRecording();
   }
 
   renderPlayback = () => {
+    console.log("STATESTAETATE", this.state);
+
 
     const W = Dimensions.get("window").width;
     const P = Math.floor( W / 2) - 50;
@@ -68,6 +71,7 @@ export default class VideoPage extends React.Component {
   }
 
   reset() {
+
     this.setState({video: null, stopping: false, recording: false});
   }
 

@@ -7,6 +7,8 @@ import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
 import VideoPage from './components/Video.js';
+import UploadPractice from './components/Uploadpractice.js';
+
 
 import firebase from 'firebase';
 let secrets = './secrets.json';
@@ -31,7 +33,7 @@ var config = {
     authDomain: secrets.AUTH_DOMAIN,
     databaseURL: "https://colibri-97b46.firebaseio.com",
     projectId: secrets.PROJECT_ID,
-    storageBucket: secrets.STORAGE_BUCKET,
+    storageBucket: "colibri-97b46.appspot.com",
     messagingSenderId: secrets.MESSAGING_SENDER_ID,
 };
 firebase.initializeApp(config);
@@ -46,10 +48,11 @@ const AppNavigator = createStackNavigator(
         EntranceScreen: Entrance,
         LoadingScreen: Loading,
         VideoPage: VideoPage,
+        UploadPractice: UploadPractice
 
     },
     {
-        initialRouteName: 'IntroScreen'
+        initialRouteName: 'UploadPractice'
     }
 );
 const AppContainer = createAppContainer(AppNavigator);
