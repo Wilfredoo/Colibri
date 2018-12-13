@@ -6,6 +6,8 @@ import Intro from './components/Intro.js';
 import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
+import VideoPage from './components/Video.js';
+
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
@@ -43,9 +45,11 @@ const AppNavigator = createStackNavigator(
         LoginScreen: Login,
         EntranceScreen: Entrance,
         LoadingScreen: Loading,
+        VideoPage: VideoPage,
+
     },
     {
-        initialRouteName: 'LoadingScreen'
+        initialRouteName: 'IntroScreen'
     }
 );
 const AppContainer = createAppContainer(AppNavigator);
