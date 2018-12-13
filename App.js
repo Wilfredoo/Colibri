@@ -6,6 +6,7 @@ import Intro from './components/Intro.js';
 import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
+import Profile from './components/Profile.js';
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
@@ -42,6 +43,7 @@ const AppNavigator = createStackNavigator(
         RegFormScreen: RegForm,
         LoginScreen: Login,
         EntranceScreen: Entrance,
+        ProfileScreen: Profile,
         LoadingScreen: Loading,
     },
     {

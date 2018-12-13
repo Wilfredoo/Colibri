@@ -1,28 +1,25 @@
 import React from 'react';
 import { Button, BackHandler, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconTabs from './IconTabs.js';
+import { withNavigation } from 'react-navigation';
 import firebase from 'firebase';
 
-export default class Entrance extends React.Component {
+class Entrance extends React.Component {
     static navigationOptions = {
         header: <IconTabs />,
     }
 
     constructor() {
         super();
-        this.state = {
-            currentUser: null,
-        }
+        this.state = {};
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-        this.logoutButton = this.logoutButton.bind(this);
     }
 
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                console.log("User's email: ", user.email);
-                console.log("UID: ", user.uid);
-                this.setState({currentUser: user.uid, currentEmail: user.email});
+                global.global_user_id = user.uid;
+                console.log("Global User ID set: ", global_user_id);
             }
         })
     }
@@ -40,28 +37,18 @@ export default class Entrance extends React.Component {
         return true;
     }
 
-    async logoutButton() {
-        try {
-            await firebase.auth().signOut();
-            navigate('IntroScreen');
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.container}>Entrance</Text>
 
-                <Button
-                    title="Log Out"
-                    onPress={this.logoutButton}
-                />
+
             </View>
         )
     }
 }
+
+export default withNavigation(Entrance);
 
 const styles = StyleSheet.create({
     container: {

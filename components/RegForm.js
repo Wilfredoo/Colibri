@@ -4,7 +4,6 @@ import { ImagePicker, Permissions, Constants } from 'expo';
 import RadioGroup from 'react-native-radio-buttons-group';
 import firebase from 'firebase';
 
-
 export default class RegForm extends React.Component {
     static navigationOptions = {
         header: null,
@@ -20,15 +19,14 @@ export default class RegForm extends React.Component {
             password: '',
             errorMessage : null,
             disabled: true,
-            gender: '',
+            gender: 'male',
+            screenHeight: Dimensions.get('window').height,
             data: [
                 {
                     label: 'Male',
-                    color: 'blue',
                 },
                 {
                     label: 'Female',
-                    color: 'pink',
                 }
             ]
         };
@@ -57,10 +55,11 @@ export default class RegForm extends React.Component {
     }
 
     onSubmit() {
-        if (!this.state.firstName || !this.state.lastName || !this.state.age || !this.state.email || !this.state.password || !this.state.bio) {
+        if (!this.state.firstName || !this.state.lastName || !this.state.age
+            || !this.state.email || !this.state.password || !this.state.bio
+            || !this.state.result.base64) {
             alert("Please fill out all fields.");
         } else {
-            console.ignoredYellowBox = ['Setting a timer'];
             let self = this;
             if (this.state.data[0].selected) {
                 self.setState({gender: 'male'});
@@ -70,18 +69,26 @@ export default class RegForm extends React.Component {
             firebase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(function(data){
-                firebase.database().ref('/users/' + self.state.gender + '/' + data.user.uid).set({
+                global.global_user_id = data.user.uid;
+                firebase.database().ref('/users/' + data.user.uid).set({
                     firstName: self.state.firstName,
                     lastName: self.state.lastName,
                     age: self.state.age,
                     bio: self.state.bio,
+                    gender: self.state.gender,
                     pic: self.state.result.base64
                 })
             .catch(error => {console.error(error);})
                 .then(() => {
-                    this.props.navigation.navigate('EntranceScreen')
+                    firebase.database().ref('/genders/' + self.state.gender).set({
+                        id: global_user_id
+                    })
                 })
                 .catch(error => {console.error(error);})
+                    .then(() => {
+                        self.props.navigation.navigate('EntranceScreen')
+                    })
+                    .catch(error => {console.error(error);})
             })
             .catch(error => this.setState({ errorMessage: error.message }))
         }
@@ -105,12 +112,16 @@ export default class RegForm extends React.Component {
         this.setState({ data });
     };
 
+    scrollToBottom = () => {
+        this.scrollView.scrollToEnd({animated: true});
+    }
+
     render() {
         let { image } = this.state;
         let selectedButton = this.state.data.find(e => e.selected == true);
         selectedButton = selectedButton ? selectedButton.value : this.state.data[0].label;
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} ref={(scrollView) => {this.scrollView = scrollView;}}>
                 <Text style={styles.header}>Register</Text>
                 <Text style={{ color: 'red' }}>
                     {this.state.errorMessage}
@@ -149,9 +160,32 @@ export default class RegForm extends React.Component {
                     ref={(input) => {this.fourthTextInput = input;}}
                     style={styles.textinput}
                     placeholder="Last Name"
+                    onFocus={this.scrollToBottom}
                     underlineColorAndroid={'transparent'}
+                    returnKeyType = {"next"}
+                    onSubmitEditing={() => {this.fifthTextInput.focus();}}
                     onChangeText={(lastName) => this.setState({lastName})}
                     isRequired={true}
+                />
+                <TextInput
+                    ref={(input) => {this.fifthTextInput = input;}}
+                    style={styles.textinput}
+                    placeholder="Brief bio (hint: be creative)"
+                    onFocus={this.scrollToBottom}
+                    underlineColorAndroid={'transparent'}
+                    returnKeyType = {"next"}
+                    onSubmitEditing={() => {this.sixthTextInput.focus();}}
+                    onChangeText={(bio) => this.setState({bio})}
+                    value={this.state.text}
+                />
+                <TextInput
+                    ref={(input) => {this.sixthTextInput = input;}}
+                    style={styles.textinput}
+                    keyboardType="numeric"
+                    placeholder="Your Age"
+                    onFocus={this.scrollToBottom}
+                    underlineColorAndroid={'transparent'}
+                    onChangeText={(age) => this.setState({age})}
                 />
                 <View>
                     <Text>Select Gender</Text>
@@ -160,31 +194,13 @@ export default class RegForm extends React.Component {
                         onPress={this.onPress}
                     />
                 </View>
-                <TextInput
-                    ref={(input) => {this.fifthTextInput = input;}}
-                    style={styles.textinput}
-                    keyboardType="numeric"
-                    placeholder="Your Age"
-                    underlineColorAndroid={'transparent'}
-                    returnKeyType = {"next"}
-                    onSubmitEditing={() => {this.sixthTextInput.focus();}}
-                    onChangeText={(age) => this.setState({age})}
-                />
-                <TextInput
-                    ref={(input) => {this.sixthTextInput = input;}}
-                    style={styles.textinput}
-                    placeholder="Brief bio (hint: be creative)"
-                    underlineColorAndroid={'transparent'}
-                    onChangeText={(bio) => this.setState({bio})}
-                    value={this.state.text}
-                />
                 <Button
                     title="Upload Profile Pic"
                     onPress={this.useLibraryHandler}
                 />
                 {this.state && this.state.result && <Image
                     source={{ uri: `data:image/gif;base64,${this.state.result.base64}` }}
-                    style={{ width: 200, height: 200 }}
+                    style={styles.circleimage}
                 />}
                 <View style={styles.button}>
                     <Button
@@ -227,5 +243,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingTop: 10,
         flex: 1,
+    },
+    circleimage: {
+        height: 200,
+        width: 200,
+        borderRadius: 100,
     },
 });
