@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default class IconTabs extends React.Component {
     static navigationOptions = {
@@ -8,26 +8,50 @@ export default class IconTabs extends React.Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.rowContainer}>
                 <Image
                     source={require('../assets/colibri-logo.png')}
-                    style={{width: 30, height: 30}}
+                    style={styles.bird}
 
                 />
                 <Image
                     source={require('../assets/green-tree.png')}
-                    style={{width: 30, height: 30}}
+                    style={styles.tree}
 
                 />
                 <Image
                     source={require('../assets/bond-icon.png')}
-                    style={{width: 30, height: 30}}
+                    style={styles.bond}
 
                 />
             </View>
         )
     }
 }
+
+let deviceWidth = Dimensions.get('window').width;
+
+const styles = StyleSheet.create({
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginTop: 30,
+    },
+    bird: {
+        width: deviceWidth / 4,
+        height: 150,
+        marginTop: -30,
+    },
+    tree: {
+        width: deviceWidth / 4,
+        height: 100,
+    },
+    bond: {
+        width: deviceWidth / 4,
+        height: 75,
+        marginTop: 10,
+    },
+})
 
 // add these once the screens exist
 // onPress={() => this.props.navigation.navigate('ProfileScreen')}

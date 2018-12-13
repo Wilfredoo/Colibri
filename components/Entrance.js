@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Button, BackHandler, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconTabs from './IconTabs.js';
 import firebase from 'firebase';
 
@@ -13,6 +13,8 @@ export default class Entrance extends React.Component {
         this.state = {
             currentUser: null,
         }
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+        this.logoutButton = this.logoutButton.bind(this);
     }
 
     componentDidMount() {
@@ -23,21 +25,39 @@ export default class Entrance extends React.Component {
                 this.setState({currentUser: user.uid, currentEmail: user.email});
             }
         })
+    }
 
-        // firebase.database().ref('/users/' + this.state.uid).push(
-        //     {
-        //       firstName: this.state.firstName,
-        //       lastName: this.state.lastName,
-        //       age: this.state.age,
-        //       bio: this.state.bio
-        //     }
-        // )
+    componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick() {
+        this.props.navigation.goBack('EntranceScreen');
+        return true;
+    }
+
+    async logoutButton() {
+        try {
+            await firebase.auth().signOut();
+            navigate('IntroScreen');
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.container}>Entrance</Text>
+
+                <Button
+                    title="Log Out"
+                    onPress={this.logoutButton}
+                />
             </View>
         )
     }
