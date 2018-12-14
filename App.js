@@ -7,6 +7,7 @@ import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
 import Profile from './components/Profile.js';
+import Forest from './components/Forest.js';
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
@@ -44,6 +45,7 @@ const AppNavigator = createStackNavigator(
         LoginScreen: Login,
         EntranceScreen: Entrance,
         ProfileScreen: Profile,
+        ForestScreen: Forest,
         LoadingScreen: Loading,
     },
     {

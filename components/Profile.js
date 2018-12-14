@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
         width: deviceWidth - 40,
         paddingTop: 10,
         marginBottom: 20,
+        alignSelf: 'center',
     },
     circleimage: {
         height: 250,

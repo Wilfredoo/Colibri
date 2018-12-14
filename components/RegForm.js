@@ -90,7 +90,7 @@ export default class RegForm extends React.Component {
                     })
                     .catch(error => {console.error(error);})
             })
-            .catch(error => this.setState({ errorMessage: error.message }))
+            // .catch(error => this.setState({ errorMessage: error.message }))
         }
     }
 
@@ -248,5 +248,7 @@ const styles = StyleSheet.create({
         height: 200,
         width: 200,
         borderRadius: 100,
+        alignSelf: 'center',
+        marginTop: 10,
     },
 });
