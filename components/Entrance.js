@@ -20,6 +20,11 @@ class Entrance extends React.Component {
             if(user) {
                 global.global_user_id = user.uid;
                 console.log("Global User ID set: ", global_user_id);
+                firebase.database().ref('/users/' + global_user_id).on('value', data => {
+                    var userData = data.toJSON();
+                    global.global_user_gender = userData.gender;
+                    console.log("global_user_gender set to: ", global_user_gender);
+                })
             }
         })
     }
