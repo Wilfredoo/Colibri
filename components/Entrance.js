@@ -15,10 +15,6 @@ class Entrance extends React.Component {
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
 
-    componentDidMount() {
-        console.log("Entrance screen rendered");
-    }
-
     componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }

@@ -20,6 +20,7 @@ export default class RegForm extends React.Component {
             errorMessage : null,
             disabled: true,
             gender: 'male',
+            id: '',
             screenHeight: Dimensions.get('window').height,
             data: [
                 {
@@ -71,8 +72,8 @@ export default class RegForm extends React.Component {
             .then(function(data){
                 global.global_user_id = data.user.uid;
                 global.global_user_gender = self.state.gender;
-                console.log("regform gender:", global_user_gender);
                 firebase.database().ref('/users/' + data.user.uid).set({
+                    id: global_user_id,
                     firstName: self.state.firstName,
                     lastName: self.state.lastName,
                     age: self.state.age,
@@ -92,7 +93,6 @@ export default class RegForm extends React.Component {
                     })
                     .catch(error => {console.error(error);})
             })
-            // .catch(error => this.setState({ errorMessage: error.message }))
         }
     }
 

@@ -26,7 +26,7 @@ let secrets = './secrets.json';
 //
 // })
 
-var config = {
+const config = {
     apiKey: "AIzaSyDHxYvWmfVhIlXXBi6WaESi3qeynhsL834",
     authDomain: secrets.AUTH_DOMAIN,
     databaseURL: "https://colibri-97b46.firebaseio.com",
