@@ -18,16 +18,12 @@ export default class Forest extends React.Component {
             console.log("female users: ");
         } else if (global_user_gender === 'female') {
             firebase.database().ref('/genders/male').on('value', data => {
-                let maleUsers = Object.keys(data.toJSON())
+                let maleUsers = Object.keys(data.toJSON());
                 console.log("male users: ", maleUsers);
-                // let arrayOfPromises = [];
-                // for (let i = 0; i < maleUsers.length; i++) {
-                //     arrayOfPromises.push(firebase.database().ref('/users/' + maleUsers[i]).on('value', s => s))
-                // }
                 const arrayOfPromises = maleUsers.map(id => {
-                    return firebase.database().ref().child('users').child(id).on('value', s => s)
+                    console.log(id);
+                    return firebase.database().ref('/users/' + id).on('value', s => s)
                 })
-                console.log(arrayOfPromises);
                 Promise.all(arrayOfPromises).then(results => {
                     console.log("results: ", results);
                 })

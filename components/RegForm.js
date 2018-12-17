@@ -70,6 +70,8 @@ export default class RegForm extends React.Component {
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(function(data){
                 global.global_user_id = data.user.uid;
+                global.global_user_gender = self.state.gender;
+                console.log("regform gender:", global_user_gender);
                 firebase.database().ref('/users/' + data.user.uid).set({
                     firstName: self.state.firstName,
                     lastName: self.state.lastName,
@@ -101,7 +103,7 @@ export default class RegForm extends React.Component {
     useLibraryHandler = async () => {
         await this.askPermissionsAsync();
         let result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
+            allowsEditing: false,
             aspect: [4, 3],
             base64: true,
         });
