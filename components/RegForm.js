@@ -61,6 +61,8 @@ export default class RegForm extends React.Component {
             || !this.state.result.base64) {
             alert("Please fill out all fields.");
         } else {
+            clearInterval(this.checker);
+            this.setState({disabled:true});
             let self = this;
             if (this.state.data[0].selected) {
                 self.setState({gender: 'male'});
@@ -142,7 +144,7 @@ export default class RegForm extends React.Component {
                 <TextInput
                     ref={(input) => {this.secondTextInput = input;}}
                     style={styles.textinput}
-                    placeholder="Password"
+                    placeholder="Password (hint: minimum 6 characters)"
                     autoCapitalize="none"
                     underlineColorAndroid={'transparent'}
                     returnKeyType = {"next"}

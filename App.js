@@ -8,23 +8,9 @@ import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
 import Profile from './components/Profile.js';
 import Forest from './components/Forest.js';
+import Others from './components/Others.js';
 import firebase from 'firebase';
 let secrets = './secrets.json';
-
-// EXAMPLE of Firebase queries
-//set = post, on = get, update and remove = delete
-// firebase.database().ref('/users/').set(
-//     {
-//     name: this.state.firstName
-//     }
-// ).then(() => {
-//     console.log("inserted something");
-// })
-// firebase.database().ref('/users/001').on('value', data => {
-//     var whatever = data.toJSON()
-//     console.log(whatever.name);
-//
-// })
 
 const config = {
     apiKey: "AIzaSyDHxYvWmfVhIlXXBi6WaESi3qeynhsL834",
@@ -46,6 +32,7 @@ const AppNavigator = createStackNavigator(
         EntranceScreen: Entrance,
         ProfileScreen: Profile,
         ForestScreen: Forest,
+        OthersScreen: Others,
         LoadingScreen: Loading,
     },
     {

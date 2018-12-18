@@ -11,13 +11,27 @@ export default class Forest extends React.Component {
     constructor() {
         super();
         this.state = {
-            colibris: []
+            users: []
         };
+        this.onPress = this.onPress.bind(this);
     }
 
     componentDidMount() {
         if (global_user_gender === 'male') {
-            console.log("female users: ");
+            firebase.database().ref('/genders/female').on('value', data => {
+                let femaleUsers = Object.keys(data.toJSON());
+                const arrayOfPromises = femaleUsers.map(id => {
+                    return new Promise((resolve, reject) => {
+                        return firebase.database().ref('/users/' + id).on('value', data => {
+                            resolve(data.val())
+                        })
+                    })
+                })
+                Promise.all(arrayOfPromises)
+                .then(results => {
+                    this.setState({users: results});
+                })
+            })
         } else if (global_user_gender === 'female') {
             firebase.database().ref('/genders/male').on('value', data => {
                 let maleUsers = Object.keys(data.toJSON());
@@ -30,7 +44,7 @@ export default class Forest extends React.Component {
                 })
                 Promise.all(arrayOfPromises)
                 .then(results => {
-                    this.setState({colibris: results});
+                    this.setState({users: results});
                 })
             })
         } else {
@@ -38,15 +52,21 @@ export default class Forest extends React.Component {
         }
     }
 
+    onPress(id) {
+        global.other_id = id;
+        console.log("other_id set: ", other_id);
+        this.props.navigation.navigate('OthersScreen');
+    }
+
     render() {
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView>
+                <View style={styles.container}>
             {
-                this.state.colibris.map(data => {
-                    console.log("id: ", data.id);
+                this.state.users.map(data => {
                     return (
                         <View key={data.id}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.onPress(data.id)}>
                                 <Image
                                     source={{uri: `data:image/gif;base64,${data.pic}`}}
                                     style={styles.circleimage}
@@ -57,7 +77,7 @@ export default class Forest extends React.Component {
                     )
                 })
             }
-
+                </View>
             </ScrollView>
         )
     }
@@ -69,7 +89,10 @@ let deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        width: deviceWidth,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        flexWrap: 'wrap',
         alignSelf: 'center',
     },
     text: {
@@ -93,10 +116,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     circleimage: {
-        height: 250,
-        width: 250,
+        height: 150,
+        width: 150,
         borderRadius: 125,
         alignSelf: 'center',
         marginTop: 10,
+        marginBottom: 20,
     },
 });
