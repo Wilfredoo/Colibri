@@ -24,14 +24,13 @@ export default class Forest extends React.Component {
                 const arrayOfPromises = maleUsers.map(id => {
                     return new Promise((resolve, reject) => {
                         return firebase.database().ref('/users/' + id).on('value', data => {
-                            resolve(data)
+                            resolve(data.val())
                         })
                     })
                 })
                 Promise.all(arrayOfPromises)
                 .then(results => {
                     this.setState({colibris: results});
-                    // console.log(this.state.colibris);
                 })
             })
         } else {
@@ -40,18 +39,14 @@ export default class Forest extends React.Component {
     }
 
     render() {
-        // console.log(this.state);
         return (
             <ScrollView style={styles.container}>
             {
                 this.state.colibris.map(data => {
-                    console.log("data: ",data);
                     console.log("id: ", data.id);
-                    console.log("name: ", data.firstName);
-                    console.log("age: ", data.age);
                     return (
-                        <View>
-                            <TouchableOpacity key={data.id}>
+                        <View key={data.id}>
+                            <TouchableOpacity>
                                 <Image
                                     source={{uri: `data:image/gif;base64,${data.pic}`}}
                                     style={styles.circleimage}
