@@ -8,22 +8,20 @@ export default class Loading extends React.Component {
     }
 
     componentDidMount() {
-        console.log("checking if signed in");
+        global.global_user_gender = null;
         firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'EntranceScreen' : 'IntroScreen')
+            if(user) {
+                global.global_user_id = user.uid;
+                firebase.database().ref('/users/' + global_user_id).on('value', data => {
+                    var userData = data.toJSON();
+                    global.global_user_gender = userData.gender;
+                    this.props.navigation.navigate(user ? 'EntranceScreen' : 'IntroScreen');
+                })
+            } else {
+                this.props.navigation.navigate('IntroScreen');
+            }
         })
     }
-
-    // THIS IS JUST FOR TESTING!! Remove when live
-    // componentDidMount() {
-    //     firebase.auth().signOut().then(function() {
-    //         console.log(" ");
-    //         console.log('Signed Out, remove this from Intro.js when going live.');
-    //         console.log(" ");
-    //     }, function(error) {
-    //         console.error('Sign Out Error', error);
-    //     })
-    // }
 
     render() {
         return (

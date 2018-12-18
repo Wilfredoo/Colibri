@@ -25,16 +25,16 @@ class IconTabs extends React.Component {
                         style={styles.bird}
                     />
                 </TouchableOpacity>
-                <Image
-                    source={require('../assets/green-tree.png')}
-                    style={styles.tree}
-
-                />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('ForestScreen')}>
+                    <Image
+                        source={require('../assets/green-tree.png')}
+                        style={styles.tree}
+                    />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('EntranceScreen')}>
                     <Image
                         source={require('../assets/bond-icon.png')}
                         style={styles.bond}
-                        onPress={() => this.props.navigation.navigate('')}
                     />
                 </TouchableOpacity>
             </View>
@@ -69,5 +69,4 @@ const styles = StyleSheet.create({
 })
 
 // add these once the screens exist
-// onPress={() => this.props.navigation.navigate('ForestScreen')}
 // onPress={() => this.props.navigation.navigate('BondsScreen')}

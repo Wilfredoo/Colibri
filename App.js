@@ -8,30 +8,12 @@ import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
 import VideoPage from './components/Video.js';
 import Profile from './components/Profile.js';
-import WatchVideos from './components/Watchvideos.js';
-
-
-
-
+import Forest from './components/Forest.js';
+import Others from './components/Others.js';
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
-// EXAMPLE of Firebase queries
-//set = post, on = get, update and remove = delete
-// firebase.database().ref('/users/').set(
-//     {
-//     name: this.state.firstName
-//     }
-// ).then(() => {
-//     console.log("inserted something");
-// })
-// firebase.database().ref('/users/001').on('value', data => {
-//     var whatever = data.toJSON()
-//     console.log(whatever.name);
-//
-// })
-
-var config = {
+const config = {
     apiKey: "AIzaSyDHxYvWmfVhIlXXBi6WaESi3qeynhsL834",
     authDomain: secrets.AUTH_DOMAIN,
     databaseURL: "https://colibri-97b46.firebaseio.com",
@@ -50,6 +32,8 @@ const AppNavigator = createStackNavigator(
         LoginScreen: Login,
         EntranceScreen: Entrance,
         ProfileScreen: Profile,
+        ForestScreen: Forest,
+        OthersScreen: Others,
         LoadingScreen: Loading,
         VideoPage: VideoPage,
         WatchVideos: WatchVideos

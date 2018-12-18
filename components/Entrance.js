@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, BackHandler, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconTabs from './IconTabs.js';
 import { withNavigation } from 'react-navigation';
+import {Video} from 'expo';
 import firebase from 'firebase';
 
 class Entrance extends React.Component {
@@ -13,15 +14,6 @@ class Entrance extends React.Component {
         super();
         this.state = {};
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    }
-
-    componentDidMount() {
-        firebase.auth().onAuthStateChanged(user => {
-            if(user) {
-                global.global_user_id = user.uid;
-                console.log("Global User ID set: ", global_user_id);
-            }
-        })
     }
 
     componentWillMount() {
@@ -40,8 +32,13 @@ class Entrance extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.container}>Entrance</Text>
-
+                <Text>Entrance</Text>
+                <Video
+                    source={{uri: 'https://firebasestorage.googleapis.com/v0/b/colibri-97b46.appspot.com/o/157642ae-699d-4b44-a7fa-d092f6c2cb84?alt=media&token=565c64e6-1be5-4aad-a80e-b7a53378dfc5'}}
+                    style={{width: 300, height: 300}}
+                    shouldPlay
+                    isMuted={false}
+                />
 
             </View>
         )

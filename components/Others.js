@@ -3,7 +3,7 @@ import { Dimensions, Image, Button, StyleSheet, Text, TouchableOpacity, View } f
 import IconTabs from './IconTabs.js';
 import firebase from 'firebase';
 
-export default class Profile extends React.Component {
+export default class Others extends React.Component {
     static navigationOptions = {
         header: <IconTabs />,
     }
@@ -16,28 +16,18 @@ export default class Profile extends React.Component {
             bio: '',
             pic: ''
         };
-        this.logoutButton = this.logoutButton.bind(this);
     }
 
     componentDidMount() {
-        firebase.database().ref('/users/' + global_user_id).on('value', data => {
-            var userData = data.toJSON()
+        firebase.database().ref('/users/' + other_id).on('value', data => {
+            var othersData = data.toJSON()
             this.setState({
-                firstName: userData.firstName,
-                age: userData.age,
-                bio: userData.bio,
-                pic: userData.pic
+                firstName: othersData.firstName,
+                age: othersData.age,
+                bio: othersData.bio,
+                pic: othersData.pic
             })
         })
-    }
-
-    async logoutButton() {
-        try {
-            await firebase.auth().signOut();
-            navigate('IntroScreen');
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     find_dimesions(layout){
@@ -58,13 +48,6 @@ export default class Profile extends React.Component {
                 />
                 <Text style={styles.text}>{this.state.firstName}, {this.state.age}</Text>
                 <Text style={styles.text2}>{this.state.bio}</Text>
-                <View style={styles.button}>
-                    <Button
-                        title="Log Out"
-                        onPress={this.logoutButton}
-                        color="orange"
-                    />
-                </View>
             </View>
         )
     }

@@ -20,6 +20,7 @@ export default class RegForm extends React.Component {
             errorMessage : null,
             disabled: true,
             gender: 'male',
+            id: '',
             screenHeight: Dimensions.get('window').height,
             data: [
                 {
@@ -60,6 +61,8 @@ export default class RegForm extends React.Component {
             || !this.state.result.base64) {
             alert("Please fill out all fields.");
         } else {
+            clearInterval(this.checker);
+            this.setState({disabled:true});
             let self = this;
             if (this.state.data[0].selected) {
                 self.setState({gender: 'male'});
@@ -70,7 +73,9 @@ export default class RegForm extends React.Component {
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(function(data){
                 global.global_user_id = data.user.uid;
+                global.global_user_gender = self.state.gender;
                 firebase.database().ref('/users/' + data.user.uid).set({
+                    id: global_user_id,
                     firstName: self.state.firstName,
                     lastName: self.state.lastName,
                     age: self.state.age,
@@ -80,17 +85,16 @@ export default class RegForm extends React.Component {
                 })
             .catch(error => {console.error(error);})
                 .then(() => {
-                    firebase.database().ref('/genders/' + self.state.gender).set({
+                    firebase.database().ref('/genders/' + self.state.gender + '/' + global_user_id).set({
                         id: global_user_id
                     })
                 })
                 .catch(error => {console.error(error);})
                     .then(() => {
-                        self.props.navigation.navigate('EntranceScreen')
+                        self.props.navigation.navigate('EntranceScreen');
                     })
                     .catch(error => {console.error(error);})
             })
-            .catch(error => this.setState({ errorMessage: error.message }))
         }
     }
 
@@ -101,7 +105,7 @@ export default class RegForm extends React.Component {
     useLibraryHandler = async () => {
         await this.askPermissionsAsync();
         let result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
+            allowsEditing: false,
             aspect: [4, 3],
             base64: true,
         });
@@ -140,7 +144,7 @@ export default class RegForm extends React.Component {
                 <TextInput
                     ref={(input) => {this.secondTextInput = input;}}
                     style={styles.textinput}
-                    placeholder="Password"
+                    placeholder="Password (hint: minimum 6 characters)"
                     autoCapitalize="none"
                     underlineColorAndroid={'transparent'}
                     returnKeyType = {"next"}
@@ -248,5 +252,7 @@ const styles = StyleSheet.create({
         height: 200,
         width: 200,
         borderRadius: 100,
+        alignSelf: 'center',
+        marginTop: 10,
     },
 });
