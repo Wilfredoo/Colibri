@@ -1,3 +1,6 @@
+// <Video source={{ uri: this.state.video.uri}} useNativeControls={true} style={{ width: W, height: W }} resizeMode="cover" />
+
+
 // jon created this for uids
 makeUID() {
     var text = "";

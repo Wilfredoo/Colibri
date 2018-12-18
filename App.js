@@ -7,7 +7,10 @@ import Login from './components/Login.js'
 import RegForm from './components/RegForm.js';
 import Entrance from './components/Entrance.js';
 import VideoPage from './components/Video.js';
-import UploadPractice from './components/Uploadpractice.js';
+import Profile from './components/Profile.js';
+import WatchVideos from './components/Watchvideos.js';
+
+
 
 
 import firebase from 'firebase';
@@ -46,13 +49,13 @@ const AppNavigator = createStackNavigator(
         RegFormScreen: RegForm,
         LoginScreen: Login,
         EntranceScreen: Entrance,
+        ProfileScreen: Profile,
         LoadingScreen: Loading,
         VideoPage: VideoPage,
-        UploadPractice: UploadPractice
-
+        WatchVideos: WatchVideos
     },
     {
-        initialRouteName: 'UploadPractice'
+        initialRouteName: 'VideoPage'
     }
 );
 const AppContainer = createAppContainer(AppNavigator);

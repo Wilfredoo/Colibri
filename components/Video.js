@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
-import { Camera,  Permissions, Video } from 'expo';
-import firebase from 'firebase';
+import { Constants, Camera,  Permissions, Video } from 'expo';
+import uuid from 'uuid';
+import * as firebase from 'firebase';
+
 
 export default class VideoPage extends React.Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -21,6 +21,7 @@ export default class VideoPage extends React.Component {
     this.setRef = this.setRef.bind(this);
     this.startRecording = this.startRecording.bind(this);
     this.stopRecording = this.stopRecording.bind(this);
+    this.callingTwoFunctions = this.callingTwoFunctions.bind(this);
     this.reset = this.reset.bind(this);
   }
 
@@ -50,8 +51,8 @@ export default class VideoPage extends React.Component {
   }
 
   renderPlayback = () => {
-    console.log("STATESTAETATE", this.state);
-
+    console.log("i want only the uri: ", this.state.video.uri);
+    this.callingTwoFunctions()
 
     const W = Dimensions.get("window").width;
     const P = Math.floor( W / 2) - 50;
@@ -60,15 +61,53 @@ export default class VideoPage extends React.Component {
       <View style={{flex: 1}}>
 
         <Video source={{ uri: this.state.video.uri}} useNativeControls={true} style={{ width: W, height: W }} resizeMode="cover" />
+        <Video source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/colibri-97b46.appspot.com/o/582c395b-35a3-4cac-8e4c-4a848b88363b'}} useNativeControls={true} style={{ width: W, height: W }} resizeMode="cover" />
         <TouchableOpacity onPress={() => this.reset()}
             style={{width: 100, height: 40, position: "absolute", borderRadius: 8, borderColor: "red", borderWidth: 1, bottom: 50, left: P, justifyContent: "center", alignItems: "center" }}>
             <Text style={{color: "red"}}>RESET</Text>
         </TouchableOpacity>
       </View>
-
     )
-
   }
+
+  async callingTwoFunctions() {
+    var url1 = await this.urlToBlob()
+    var url2 = await this.blobToFirebase(url1);
+  }
+
+   urlToBlob = () => {
+    console.log("Im happening");
+    return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        xhr.onerror = reject;
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                resolve(xhr.response);
+            }
+        };
+        xhr.open('GET', this.state.video.uri);
+        xhr.responseType = 'blob'; // convert type
+        xhr.send();
+    })
+    }
+
+  blobToFirebase = async (blob) => {
+  const storage = firebase.storage();
+  // console.log("storageEEE: ", storage);
+  const storageRef = storage.ref();
+  // console.log("storageREEEEF: ", storageRef);
+  const videoRef = storageRef.child(uuid.v4())
+
+  const snapshot = await videoRef.put(blob);
+  return snapshot.downloadURL;
+  }
+
+  componentDidMount() {
+    var storage = firebase.storage();
+    let httpsReference = storage.refFromURL('https://firebasestorage.googleapis.com/v0/b/colibri-97b46.appspot.com/o/582c395b-35a3-4cac-8e4c-4a848b88363b')
+    console.log("it is this", httpsReference);
+  }
+
 
   reset() {
 
@@ -108,10 +147,17 @@ export default class VideoPage extends React.Component {
             <Text style={{color: bColor}}>STOP</Text>
           </TouchableOpacity>
         }
+
       </View>
     )
 
   }
+
+// should this be async? why?
+// why is normal function syntax not working?
+// why are they running if Im not calling them?
+
+
 
   render() {
 
