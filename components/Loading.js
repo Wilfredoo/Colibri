@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Image, View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import firebase from 'firebase';
 
 export default class Loading extends React.Component {
@@ -26,7 +26,8 @@ export default class Loading extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Loading</Text>
+                <Image style={styles.bird} source={require('../assets/colibri-logo.png')} />
+                <Text style={styles.text}>Loading</Text>
                 <ActivityIndicator size="large" />
             </View>
         )
@@ -38,5 +39,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    bird: {
+        width: 200,
+        height: 200,
+        marginBottom: 50,
+    },
+    text: {
+        marginBottom: 10
+    },
 })

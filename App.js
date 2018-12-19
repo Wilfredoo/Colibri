@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
+import _ from 'lodash';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Loading from './components/Loading.js';
 import Intro from './components/Intro.js';
@@ -11,6 +12,14 @@ import Forest from './components/Forest.js';
 import Others from './components/Others.js';
 import firebase from 'firebase';
 let secrets = './secrets.json';
+
+YellowBox.ignoreWarnings(['Setting a timer']);
+const _console = _.clone(console);
+console.warn = message => {
+  if (message.indexOf('Setting a timer') <= -1) {
+    _console.warn(message);
+  }
+};
 
 const config = {
     apiKey: "AIzaSyDHxYvWmfVhIlXXBi6WaESi3qeynhsL834",

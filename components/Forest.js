@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, Button, StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, Button, StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native';
 import IconTabs from './IconTabs.js';
 import firebase from 'firebase';
 
@@ -11,62 +11,53 @@ export default class Forest extends React.Component {
     constructor() {
         super();
         this.state = {
-            users: []
+            users: [],
+            showLoading: true,
         };
         this.onPress = this.onPress.bind(this);
     }
 
     componentDidMount() {
+        let whichGender = null;
         if (global_user_gender === 'male') {
-            firebase.database().ref('/genders/female').on('value', data => {
-                let femaleUsers = Object.keys(data.toJSON());
-                const arrayOfPromises = femaleUsers.map(id => {
-                    return new Promise((resolve, reject) => {
-                        return firebase.database().ref('/users/' + id).on('value', data => {
-                            resolve(data.val())
-                        })
-                    })
-                })
-                Promise.all(arrayOfPromises)
-                .then(results => {
-                    this.setState({users: results});
-                })
-            })
+            whichGender = 'female';
         } else if (global_user_gender === 'female') {
-            firebase.database().ref('/genders/male').on('value', data => {
-                let maleUsers = Object.keys(data.toJSON());
-                const arrayOfPromises = maleUsers.map(id => {
-                    return new Promise((resolve, reject) => {
-                        return firebase.database().ref('/users/' + id).on('value', data => {
-                            resolve(data.val())
-                        })
-                    })
-                })
-                Promise.all(arrayOfPromises)
-                .then(results => {
-                    this.setState({users: results});
-                })
-            })
+            whichGender = 'male';
         } else {
-            console.warn("Error! This user has no gender!");
+            console.warn("Error! This user has no gender somehow!");
         }
+        let arrayOfPromises = new Promise((resolve, reject) => {
+            firebase.database().ref()
+            .child('users').orderByChild('gender').equalTo(whichGender).on('value', data => {
+                resolve(Object.values(data.val()))
+                this.setState({showLoading: false});
+                this.setState({users: Object.values(data.val())});
+            })
+        })
     }
 
-    onPress(id) {
-        global.other_id = id;
-        console.log("other_id set: ", other_id);
+    onPress(data) {
+        global.others_data = data;
         this.props.navigation.navigate('OthersScreen');
     }
 
     render() {
         return (
             <ScrollView>
-                <View style={styles.container}>
+            {
+                this.state.showLoading &&
+                <View>
+                    <Image style={styles.bird} source={require('../assets/colibri-logo.png')} />
+                    <Text style={styles.loadtext}>Loading</Text>
+                    <ActivityIndicator size="large" />
+                </View>
+            }
+            <View style={styles.container}>
             {
                 this.state.users.map(data => {
                     return (
-                        <View key={data.id}>
-                            <TouchableOpacity onPress={() => this.onPress(data.id)}>
+                        <View key={data.id} ref={data.id}>
+                            <TouchableOpacity onPress={() => this.onPress(data)}>
                                 <Image
                                     source={{uri: `data:image/gif;base64,${data.pic}`}}
                                     style={styles.circleimage}
@@ -109,6 +100,10 @@ const styles = StyleSheet.create({
         marginRight: 20,
         height: 100,
     },
+    loadtext: {
+        alignSelf: 'center',
+        marginBottom: 10,
+    },
     button: {
         width: deviceWidth - 40,
         paddingTop: 10,
@@ -122,5 +117,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 10,
         marginBottom: 20,
+    },
+    bird: {
+        width: 200,
+        height: 200,
+        marginTop: 20,
+        marginBottom: 50,
+        alignSelf: 'center',
     },
 });

@@ -11,6 +11,7 @@ export default class Others extends React.Component {
     constructor() {
         super();
         this.state = {
+            id: '',
             firstName: '',
             age: '',
             bio: '',
@@ -19,14 +20,12 @@ export default class Others extends React.Component {
     }
 
     componentDidMount() {
-        firebase.database().ref('/users/' + other_id).on('value', data => {
-            var othersData = data.toJSON()
-            this.setState({
-                firstName: othersData.firstName,
-                age: othersData.age,
-                bio: othersData.bio,
-                pic: othersData.pic
-            })
+        this.setState({
+            id: others_data.id,
+            firstName: others_data.firstName,
+            age: others_data.age,
+            bio: others_data.bio,
+            pic: others_data.pic
         })
     }
 
