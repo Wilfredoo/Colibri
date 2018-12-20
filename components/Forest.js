@@ -32,6 +32,16 @@ export default class Forest extends React.Component {
                 resolve(Object.values(data.val()))
                 this.setState({showLoading: false});
                 this.setState({users: Object.values(data.val())});
+                this.state.users.map(user => {
+                    // console.log("user id: ", user.id);
+                    firebase.database().ref(`/bonds/${global_user_id}_${user.id}`)
+                    .on('value', data => {
+                        if(data.exists()) {
+                            // this.state.users.setState({bondStatus: data.val().bond})
+                            console.log(`${user.id} peck found. Are they bonded?`, data.val().bond);
+                        }
+                    })
+                });
             })
         })
     }
@@ -54,16 +64,16 @@ export default class Forest extends React.Component {
             }
             <View style={styles.container}>
             {
-                this.state.users.map(data => {
+                this.state.users.map(user => {
                     return (
-                        <View key={data.id} ref={data.id}>
-                            <TouchableOpacity onPress={() => this.onPress(data)}>
+                        <View key={user.id} keyProp={user.id} ref={user.id}>
+                            <TouchableOpacity onPress={() => this.onPress(user)}>
                                 <Image
-                                    source={{uri: `data:image/gif;base64,${data.pic}`}}
+                                    source={{uri:`data:image/gif;base64,${user.pic}`}}
                                     style={styles.circleimage}
                                 />
                             </TouchableOpacity>
-                            <Text>{data.bio}</Text>
+                            <Text>{user.bio}</Text>
                         </View>
                     )
                 })

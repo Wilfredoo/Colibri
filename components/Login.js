@@ -25,10 +25,6 @@ export default class Login extends React.Component {
         );
     }
 
-    componentWillUnmount() {
-        clearInterval(this.checker);
-    }
-
     onSubmit(evt) {
         evt.preventDefault();
         firebase
