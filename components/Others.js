@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, Image, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import IconTabs from './IconTabs.js';
 import firebase from 'firebase';
 
@@ -11,23 +11,80 @@ export default class Others extends React.Component {
     constructor() {
         super();
         this.state = {
+            id: '',
             firstName: '',
             age: '',
             bio: '',
-            pic: ''
+            pic: '',
+            peckButtonState: 'Peck',
+            peckButtonActive: false
         };
+        this.peckButton = this.peckButton.bind(this);
     }
 
     componentDidMount() {
-        firebase.database().ref('/users/' + other_id).on('value', data => {
-            var othersData = data.toJSON()
-            this.setState({
-                firstName: othersData.firstName,
-                age: othersData.age,
-                bio: othersData.bio,
-                pic: othersData.pic
-            })
+        this.setState({
+            id: others_data.id,
+            firstName: others_data.firstName,
+            age: others_data.age,
+            bio: others_data.bio,
+            pic: others_data.pic
+        });
+        firebase.database().ref(`/bonds/${global_user_id}_${others_data.id}`)
+        .on('value', data => {
+            if (!data.exists()) {
+                firebase.database().ref(`/bonds/${others_data.id}_${global_user_id}`)
+                .on('value', data2 => {
+                    if (!data2.exists()) {
+                        this.setState({peckButtonState: 'Peck', peckButtonActive: true});
+                    } else {
+                        if(data2.val().bond) {
+                            this.setState({peckButtonState: 'Bonded', peckButtonActive: true});
+                        } else {
+                            this.setState({peckButtonState: 'Peck Back', peckButtonActive: true});
+                        }
+                    }
+                })
+            } else {
+                if(data.val().bond) {
+                    this.setState({peckButtonState: 'Bonded', peckButtonActive: true});
+                } else {
+                    this.setState({peckButtonState: 'Pecked', peckButtonActive: true});
+                }
+            }
         })
+    }
+
+    peckButton() {
+        if(this.state.peckButtonActive) {
+            if(this.state.peckButtonState === 'Peck') {
+                Alert.alert(
+                    "😍 Oh yeah! ❤️",
+                    `You pecked ${this.state.firstName}!`
+                );
+                this.setState({peckButtonState: 'Pecked'});
+                let bond_pair = `${global_user_id}_${others_data.id}`;
+                firebase.database().ref('/bonds/' + bond_pair).set({
+                    bond: false
+                })
+            } else if (this.state.peckButtonState === 'Peck Back') {
+                Alert.alert(
+                    "Congratulations!",
+                    `You bonded with ${this.state.firstName}!`
+                );
+                this.setState({peckButtonState: 'Bonded'});
+                let bond_pair2 = `${others_data.id}_${global_user_id}`;
+                firebase.database().ref('/bonds/' + bond_pair2)
+                .update({bond: true});
+            } else if (this.state.peckButtonState === 'Bonded') {
+                // Link to Video Chat component
+            } else {
+                Alert.alert(
+                    "Patience Grasshopper!",
+                    `You already pecked ${this.state.firstName}. Maybe they'll peck you back, maybe not! 😉`
+                )
+            }
+        }
     }
 
     find_dimesions(layout){
@@ -48,6 +105,44 @@ export default class Others extends React.Component {
                 />
                 <Text style={styles.text}>{this.state.firstName}, {this.state.age}</Text>
                 <Text style={styles.text2}>{this.state.bio}</Text>
+                <View style={styles.button}>
+                {
+                    this.state.peckButtonState === 'Peck' &&
+                    this.state.peckButtonActive === true &&
+                    <Button
+                        onPress={this.peckButton}
+                        title="Peck"
+                        color="purple"
+                    />
+                }
+                {
+                    this.state.peckButtonState === 'Pecked' &&
+                    this.state.peckButtonActive === true &&
+                    <Button
+                        onPress={this.peckButton}
+                        title="Pecked!"
+                        color="green"
+                    />
+                }
+                {
+                    this.state.peckButtonState === 'Peck Back' &&
+                    this.state.peckButtonActive === true &&
+                    <Button
+                        onPress={this.peckButton}
+                        title="Peck back!"
+                        color="blue"
+                    />
+                }
+                {
+                    this.state.peckButtonState === 'Bonded' &&
+                    this.state.peckButtonActive === true &&
+                    <Button
+                        onPress={this.peckButton}
+                        title="Video Chat"
+                        color="red"
+                    />
+                }
+                </View>
             </View>
         )
     }

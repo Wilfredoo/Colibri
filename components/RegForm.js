@@ -85,15 +85,9 @@ export default class RegForm extends React.Component {
                 })
             .catch(error => {console.error(error);})
                 .then(() => {
-                    firebase.database().ref('/genders/' + self.state.gender + '/' + global_user_id).set({
-                        id: global_user_id
-                    })
+                    self.props.navigation.navigate('EntranceScreen');
                 })
                 .catch(error => {console.error(error);})
-                    .then(() => {
-                        self.props.navigation.navigate('EntranceScreen');
-                    })
-                    .catch(error => {console.error(error);})
             })
         }
     }
