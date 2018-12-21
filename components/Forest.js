@@ -38,7 +38,7 @@ export default class Forest extends React.Component {
                     .on('value', data => {
                         if(data.exists()) {
                             // this.state.users.setState({bondStatus: data.val().bond})
-                            console.log(`${user.id} peck found. Are they bonded?`, data.val().bond);
+                            console.log(`${user.id} like or match found. Are they matched?`, data.val().bond);
                         }
                     })
                 });
@@ -123,6 +123,15 @@ const styles = StyleSheet.create({
     circleimage: {
         height: 150,
         width: 150,
+        borderRadius: 125,
+        alignSelf: 'center',
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    circleimagered: {
+        height: 200,
+        width: 200,
+        backgroundColor: 'red',
         borderRadius: 125,
         alignSelf: 'center',
         marginTop: 10,
