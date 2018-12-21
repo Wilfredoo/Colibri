@@ -93,19 +93,21 @@ export default class VideoPage extends React.Component {
 
   blobToFirebase = async (blob) => {
   const storage = firebase.storage();
-  // console.log("storageEEE: ", storage);
   const storageRef = storage.ref();
-  // console.log("storageREEEEF: ", storageRef);
   const videoRef = storageRef.child(uuid.v4())
+  console.log("hold my beer: ", videoRef.location.path);
+  var metadata = {
+  contentType: 'video/mp4',
+};
 
-  const snapshot = await videoRef.put(blob);
+  const snapshot = await videoRef.put(blob, metadata);
   return snapshot.downloadURL;
   }
 
   componentDidMount() {
     var storage = firebase.storage();
     let httpsReference = storage.refFromURL('https://firebasestorage.googleapis.com/v0/b/colibri-97b46.appspot.com/o/582c395b-35a3-4cac-8e4c-4a848b88363b')
-    console.log("it is this", httpsReference);
+    console.log("it is this", httpsReference.location.path);
   }
 
 

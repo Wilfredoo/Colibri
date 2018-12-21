@@ -10,6 +10,8 @@ import VideoPage from './components/Video.js';
 import Profile from './components/Profile.js';
 import Forest from './components/Forest.js';
 import Others from './components/Others.js';
+import Notifications2 from './components/notifications2.js';
+
 import firebase from 'firebase';
 let secrets = './secrets.json';
 
@@ -36,7 +38,8 @@ const AppNavigator = createStackNavigator(
         OthersScreen: Others,
         LoadingScreen: Loading,
         VideoPage: VideoPage,
-        WatchVideos: WatchVideos
+        Notifications: Notifications2
+
     },
     {
         initialRouteName: 'VideoPage'

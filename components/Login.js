@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import firebase from 'firebase';
+import { Permissions, Notifications } from 'expo';
 
 export default class Login extends React.Component {
     static navigationOptions = {
@@ -61,6 +62,8 @@ export default class Login extends React.Component {
             this.setState({disabled:true});
         }
     }
+
+
 
     render() {
         return (
